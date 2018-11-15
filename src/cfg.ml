@@ -356,10 +356,14 @@ module Parser = struct
     >> opt [] p_tuples <<
     (p_spaces >> char ']' >> p_spaces1)
 
-  let p_assgin name=
-    p_spaces >> string "let" >> p_spaces >> string name >> p_spaces >> char '=' >> p_spaces >> p_list
+  let p_assgin name= p_spaces >>
+    string "let" >> p_spaces >>
+    string name >> p_spaces >>
+    char '=' >> p_spaces >>
+    p_list
 
 
+  let p_unprintable= p_assgin "unprintable" |>> fun s-> `Unprintable s
   let p_combining= p_assgin "combining" |>> fun s-> `Combining s
   let p_w2= p_assgin "w2" |>> fun s-> `W2 s
   let p_w3= p_assgin "w3" |>> fun s-> `W3 s
@@ -367,11 +371,13 @@ module Parser = struct
   let p_w5= p_assgin "w5" |>> fun s-> `W5 s
   let p_w6= p_assgin "w6" |>> fun s-> `W6 s
 
-  let p_set= p_combining <|> p_w2 <|> p_w3 <|> p_w4 <|> p_w5 <|> p_w6
+  let p_set= p_unprintable <|> p_combining
+    <|> p_w2 <|> p_w3 <|> p_w4 <|> p_w5 <|> p_w6
     <|> (eof |>> fun _-> `Eof)
 
   let p_cfg=
-    let combining= ref []
+    let unprintable= ref []
+    and combining= ref []
     and w2= ref []
     and w3= ref []
     and w4= ref []
@@ -382,6 +388,7 @@ module Parser = struct
       match result with
       | Error e-> Error e
       | Ok (`Eof, state)-> Ok ((), state)
+      | Ok (`Unprintable set, state)-> unprintable:= set; p_cfg_aux state
       | Ok (`Combining set, state)-> combining:= set; p_cfg_aux state
       | Ok (`W2 set, state)-> w2:= set; p_cfg_aux state
       | Ok (`W3 set, state)-> w3:= set; p_cfg_aux state
@@ -389,10 +396,12 @@ module Parser = struct
       | Ok (`W5 set, state)-> w5:= set; p_cfg_aux state
       | Ok (`W6 set, state)-> w6:= set; p_cfg_aux state
     in
-    p_cfg_aux |>> fun ()-> (!combining, !w2, !w3, !w4, !w5, !w6)
+    p_cfg_aux
+      |>> fun ()-> (!unprintable, !combining, !w2, !w3, !w4, !w5, !w6)
 end
 
 type widthTable= {
+  unprintable: Codes.t;
   combining: Codes.t;
   w2: Codes.t;
   w3: Codes.t;
@@ -405,14 +414,15 @@ type t= widthTable
 
 let load_from_string cfg=
   match MiniParsec.parse_string Parser.p_cfg cfg with
-  | Ok ((combining, w2, w3, w4, w5, w6), _)->
-    let combining= Codes.of_tuple_list combining
+  | Ok ((unprintable, combining, w2, w3, w4, w5, w6), _)->
+    let unprintable= Codes.of_tuple_list unprintable
+    and combining= Codes.of_tuple_list combining
     and w2= Codes.of_tuple_list w2
     and w3= Codes.of_tuple_list w3
     and w4= Codes.of_tuple_list w4
     and w5= Codes.of_tuple_list w5
     and w6= Codes.of_tuple_list w6 in
-    Ok { combining; w2; w3; w4; w5; w6 }
+    Ok { unprintable; combining; w2; w3; w4; w5; w6 }
   | Error (pos, _)-> Error pos.cnum
 
 let load_from_path path=
@@ -422,11 +432,12 @@ let load_from_path path=
   load_from_string cfg
 
 let union cfg1 cfg2=
-  let combining= Codes.union cfg1.combining cfg2.combining
+  let unprintable= Codes.union cfg1.unprintable cfg2.unprintable
+  and combining= Codes.union cfg1.combining cfg2.combining
   and w2= Codes.union cfg1.w2 cfg2.w2
   and w3= Codes.union cfg1.w3 cfg2.w3
   and w4= Codes.union cfg1.w4 cfg2.w4
   and w5= Codes.union cfg1.w5 cfg2.w5
   and w6= Codes.union cfg1.w6 cfg2.w6 in
-  { combining; w2; w3; w4; w5; w6 }
+  { unprintable; combining; w2; w3; w4; w5; w6 }
 
