@@ -35,3 +35,23 @@ let width ?(cfg: Cfg.t option= None) uchar=
         1
     | None-> 1
 
+let width_exn ?(cfg: Cfg.t option= None) uchar=
+  let w= width ~cfg uchar in
+  if w = -1 then
+    raise (Failure "unprintable character")
+  else
+    w
+
+let width_utext ?(cfg: Cfg.t option= None) (utext: UText.utext)=
+  let length= UText.length utext - 1 in
+  let rec aux ws i=
+    if i < length then
+      let wc= width ~cfg (UText.get utext i) in
+      if wc = -1 then
+        Error i
+      else
+        aux (ws+wc) (i+1)
+    else
+      Ok ws
+  in
+  aux 0 0
