@@ -1,4 +1,25 @@
+(** [Codes] expands some functions based on CamomileLibrary.USet,
+    a module implements Sets of Unicode characters, implemented as sets of intervals.
+*)
+
+(** [USet.t] *)
 type t
+
+(** {3 extended functions} *)
+
+(** based on add_range, [add_ranges l s] add a list of ranges [l] to [s]. *)
+val add_ranges :
+  (CamomileLibrary.UChar.t * CamomileLibrary.UChar.t) list -> t -> t
+
+(** [tuple_to_range tuple] convert [tuple] to a UChar range *)
+val tuple_to_range :
+  int * int -> CamomileLibrary.UChar.t * CamomileLibrary.UChar.t
+
+(** [of_tuple_list l] convert int tuple list [l] to a [USet.t] *)
+val of_tuple_list : (int * int) list -> t
+
+(** {3 Below are type signatures of the original [CamomileLibrary.USet] module} *)
+
 val empty : t
 val is_empty : t -> bool
 val mem : CamomileLibrary.UChar.t -> t -> bool
@@ -39,9 +60,4 @@ val max_elt : t -> CamomileLibrary.UChar.t
 val choose : t -> CamomileLibrary.UChar.t
 val uset_of_iset : CamomileLibrary.Private.ISet.t -> t
 val iset_of_uset : t -> CamomileLibrary.Private.ISet.t
-val add_ranges :
-  (CamomileLibrary.UChar.t * CamomileLibrary.UChar.t) list -> t -> t
-val tuple_to_range :
-  int * int -> CamomileLibrary.UChar.t * CamomileLibrary.UChar.t
-val of_tuple_list : (int * int) list -> t
 
