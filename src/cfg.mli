@@ -1,6 +1,5 @@
-open Result
-
 type widthTable = {
+  unprintable : Codes.t;
   combining : Codes.t;
   w2 : Codes.t;
   w3 : Codes.t;
@@ -11,9 +10,9 @@ type widthTable = {
 
 type t = widthTable
 
-val load_from_string : string -> (t, int) result
+val load_from_string : string -> (t, int) Result.result
 
-val load_from_path : string -> (t, int) result
+val load_from_path : string -> (t, int) Result.result
 
 val union : t -> t -> t
 

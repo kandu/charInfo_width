@@ -17,7 +17,9 @@ let width ?(cfg: Cfg.t option= None) uchar=
   else
     match cfg with
     | Some widthTable-> 
-      if Codes.mem uchar widthTable.combining then
+      if Codes.mem uchar widthTable.unprintable then
+        -1
+      else if Codes.mem uchar widthTable.combining then
         0
       else if Codes.mem uchar widthTable.w2 then
         2
