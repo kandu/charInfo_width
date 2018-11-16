@@ -2,7 +2,7 @@
 
 Determine column width of a character.
 
-# Description
+# How to use
 
 `CharInfo_width.width c` returns the column width of `c` where `c` is of type `Camomile.UChar.t` and the value returned is of type `int`.
 
@@ -13,3 +13,9 @@ By default, the `width` and `width_exn` function is compatible with ncursesw, nc
 An optional parameter, `cfg`, can extend extra width info. The current width info table of ncursesw, xterm, xterm-compatible terminal is inadequate and limited, so is the default cfg of this module. When implement raw mode command-line interface, e.g. readline, a text editor, better extend extra width info by `cfg`. An on going sample repository of width table is here: [charInfo\_width\_extra](https://bitbucket.org/zandoye/charinfo_width_extra)
 
 This module also provides a function, `CharInfo_width.width_utext` to calculate the width of a unicode string. The returned value is either `Ok width` or `Error pos-of-unprintable-character`.
+
+
+# Document
+
+The document is available [here](https://zandoye.bitbucket.io/doc/_html/charInfo_width/).
+
