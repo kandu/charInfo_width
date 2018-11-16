@@ -1,6 +1,6 @@
 # CharInfo\_width
 
-Determine column width of a character.
+Determine column width for a character.
 
 # How to use
 
