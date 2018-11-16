@@ -17,7 +17,7 @@ depopts: [
   "charInfo_width_extra"
 ]
 
-synopsis: "Determine column width of a character"
+synopsis: "Determine column width for a character"
 description: """
 This module is implemented purely in OCaml and the width function follows the prototype of POSIX's wcwidth."""
 
