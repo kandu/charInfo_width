@@ -1,4 +1,5 @@
 open CamomileLibraryDefault.Camomile
+open Result
 
 module Cfg = Cfg
 
