@@ -11,5 +11,9 @@ val width: ?cfg: Cfg.t option -> UChar.t -> int
 val width_exn: ?cfg: Cfg.t option -> UChar.t -> int
 (** when encounter an unprintable character, [width_exn c] raises [Failure "unprintable character"] instead of returning -1. *)
 
-val width_utext: ?cfg: Cfg.t option -> UText.utext -> (int, int) result
-(** [width_utext str] returns the column width of [str] where [str] is of type [Camomile.UText.utext] and the value returned is of type [(int, int) result]. When [Ok width] returnted, [width] is the width of [str]. When [Error pos] returned, [pos] is the offset of the left most unprintable character in [str]. *)
+module String : functor (US : UnicodeString.Type) ->
+  sig
+    val width : ?cfg:Cfg.widthTable option -> US.t -> (int, int) result
+    (** [width str] returns the column width of [str] where [str] is of type [Camomile.UnicodeString.Type.t] and the value returned is of type [(int, int) result]. When [Ok width] returnted, [width] is the width of [str]. When [Error pos] returned, [pos] is the offset of the left most unprintable character in [str]. *)
+  end
+
