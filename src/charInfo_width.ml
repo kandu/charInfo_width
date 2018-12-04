@@ -43,7 +43,13 @@ let width_exn ?(cfg: Cfg.t option= None) uchar=
   else
     w
 
-module String(US:UnicodeString.Type) = struct
+module type UnicodeString_mini = sig
+  type t
+  val get : t -> int -> UChar.t
+  val length : t -> int
+end
+
+module String(US:UnicodeString_mini) = struct
   let width ?(cfg: Cfg.t option= None) (us: US.t)=
     let length= US.length us in
     let rec aux ws i=
