@@ -1,4 +1,4 @@
-open CamomileLibraryDefault.Camomile
+open Camomile
 
 include USet
 
