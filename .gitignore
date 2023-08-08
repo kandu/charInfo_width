@@ -1,5 +1,3 @@
-syntax: glob
-
 **/*.annot
 
 **/.\#*
@@ -11,7 +9,7 @@ syntax: glob
 **/*.a
 **/*.so
 **/*.cm*
-_build
+/_build
 .merlin
 charInfo_width.install
 
