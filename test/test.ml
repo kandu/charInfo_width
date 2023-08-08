@@ -1,4 +1,4 @@
-open CamomileLibraryDefault
+open Camomile
 open Result
 open Printf
 
