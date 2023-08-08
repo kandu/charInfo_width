@@ -1,3 +1,6 @@
+## 2.0.0 (2023-08-08)
+* compatible with camomile 2.0 (#1, @dmbaturin Daniil Baturin)
+
 ## 1.1.0 (2018-12-04)
 * Loosen the restriction of parameter module of `CharInfo_width.String` functor. Only the `length` and `get` functions are required.
 
