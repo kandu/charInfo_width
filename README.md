@@ -17,5 +17,5 @@ This module also provides a functor, `CharInfo_width.String`. This functor accep
 
 # Document
 
-The document is available [here](https://zandoye.bitbucket.io/doc/_html/charInfo_width/).
+The document is available [here](https://kandu.github.io/caml_doc/charInfo_width/).
 
