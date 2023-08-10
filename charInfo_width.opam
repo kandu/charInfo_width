@@ -1,10 +1,10 @@
 opam-version: "2.0"
 maintainer: "zandoye@gmail.com"
 authors: [ "ZAN DoYe" ]
-homepage: "https://bitbucket.org/zandoye/charinfo_width/"
-bug-reports: "https://bitbucket.org/zandoye/charinfo_width/issues"
+homepage: "https://github.com/kandu/charinfo_width/"
+bug-reports: "https://github.com/kandu/charinfo_width/issues"
 license: "MIT"
-dev-repo: "hg://https://bitbucket.org/zandoye/charinfo_width"
+dev-repo: "git+https://github.com/kandu/charinfo_width.git"
 build: [
   ["dune" "build" "-p" name "-j" jobs]
   ["dune" "runtest" "-p" name "-j" jobs] {with-test & (ocaml:version >= "4.04.0")}
@@ -12,8 +12,8 @@ build: [
 depends: [
   "ocaml" {>= "4.02.3"}
   "result"
-  "camomile" {>= "1.0.0" & < "2.0~"}
-  "dune" {build}
+  "camomile" {>= "2.0.0" & < "3.0~"}
+  "dune" {>= "1.4"}
   "ppx_expect" {with-test}
 ]
 
